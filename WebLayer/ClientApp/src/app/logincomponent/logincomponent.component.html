@@ -1,0 +1,39 @@
+<app-empty-tag></app-empty-tag>
+<app-empty-tag></app-empty-tag>
+
+<form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group" [ngClass]="displayFieldCss('UserName')">
+        <label for="Name" class="control-label required">Name</label>
+        <input type="text" class="form-control" formControlName="UserName"> 
+        <app-field-error-display [displayError]="isFieldValid('UserName')" errorMsg="Please provide User Name">
+        </app-field-error-display>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Passowrd</label>
+        <input type="password" class="form-control" formControlName="Password">
+        <app-field-error-display [displayError]="isFieldValid('Password')" errorMsg="Please provide Password">
+        </app-field-error-display>
+      </div>
+    </div>
+  </div>
+
+  <div  class="error-msg">
+    {{error}}
+  </div>
+
+ <div>
+   User Name=abc and password=abc
+ </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
+

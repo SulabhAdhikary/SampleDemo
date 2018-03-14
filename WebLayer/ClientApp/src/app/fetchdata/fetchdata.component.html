@@ -1,0 +1,63 @@
+
+
+
+
+
+<hr class="style3">
+<p *ngIf="!allStudents">
+  <em>Loading Master Record</em>
+</p>
+<p *ngIf="allStudents">
+      <em>Master Record</em>
+</p>
+<hr class="style3">
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>EnrollmentDate</th>
+      
+    </tr>
+  </thead>
+  <tbody *ngIf="allStudents">
+    <tr *ngFor="let student of allStudents;
+                let i = index;"  appCcCardHove>
+      <td class="idclass">{{student.id}}</td>
+      <td>{{ student.firstMidName }}</td>
+      <td>{{ student.lastName }}</td>
+      <td>{{ student.enrollmentDate|date:'d/M/y' }}</td>
+    </tr>
+  </tbody>
+
+</table>
+
+
+<hr class="style3">
+<p *ngIf="!allEnrollments">
+  <em>Loading Detail Record ...</em></p>
+  <p *ngIf="allEnrollments">
+      <em>Detail Record</em></p>
+<hr class="style3">
+<br>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Credit</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="allEnrollments">
+    <tr *ngFor="let enrollment of allEnrollments;
+                let i = index;" >
+      <td>{{enrollment.courseTitle}}</td>
+      <td>{{ enrollment.credit }}</td>
+      <td>{{ enrollment.grade }}</td>
+     
+    </tr>
+  </tbody>
+
+</table>
