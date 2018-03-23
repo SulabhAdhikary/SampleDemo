@@ -17,7 +17,7 @@ export class AuthenticationService {
 
     }
 
-login(username: string, password: string): Observable<boolean> {
+ login(username: string, password: string): Observable<boolean> {
 
     let successFulLogin: boolean = false;
     const httpOptions = {
@@ -27,7 +27,7 @@ login(username: string, password: string): Observable<boolean> {
             })
           };
 
-         return this.http.post('api/Token/CreateToken', JSON.stringify({ username: username, password: password }), httpOptions)
+       return this.http.post('api/Token/CreateToken', JSON.stringify({ username: username, password: password }), httpOptions)
             .map((response: Response) => {
                 const currentUserString: any = JSON.stringify(response);
                 if (response && response['token'] && response['token'].length > 1) {

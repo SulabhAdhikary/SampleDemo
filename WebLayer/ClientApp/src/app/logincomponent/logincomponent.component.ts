@@ -1,8 +1,11 @@
+ /* tslint:disable:no-inferrable-types*/
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonServiceService } from '../commonservices/common-service.service';
 import { AuthenticationService } from './../commonservices/AuthenticationService';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-logincomponent',
@@ -15,11 +18,12 @@ export class LogincomponentComponent implements OnInit, OnDestroy {
   Password: FormControl;
   error: String;
   loading = false;
+  isSucessfullyLoggedIn: boolean = false;
 
   constructor(private commonService: CommonServiceService,
               private authenticationService: AuthenticationService,
-              private router: Router)
-  {
+              private router: Router) {
+
 
   }
 
@@ -61,14 +65,11 @@ export class LogincomponentComponent implements OnInit, OnDestroy {
   }
 
 
-
-  onSubmit() {
-  if (this.loginForm.valid)
-  {
-    this.loading = true;
-    this.authenticationService.login(this.UserName.value, this.Password.value)
-        .subscribe(result => {
-          if (result === true) {
+/*
+   onSubmit() {
+  if (this.loginForm.valid) {
+     this.loading = true;
+      if (this.isUserSuccessfullyLoggedIn()) {
             this.commonService.UserLoggedInEvent(true);
             this.router.navigate(['Home']);
         } else {
@@ -76,7 +77,29 @@ export class LogincomponentComponent implements OnInit, OnDestroy {
             this.error = 'Username or password is incorrect';
             this.loading = false;
         }
-        });
+    } else {
+      Object.keys(this.loginForm.controls).forEach(field => {
+        const control = this.loginForm.get(field);
+        control.markAsTouched({ onlySelf: true });
+      });
+    }
+  }*/
+
+
+
+  onSubmit() {
+  if (this.loginForm.valid) {
+    this.loading = true;
+    this.isUserSuccessfullyLoggedIn().subscribe(data => {
+      // tslint:disable-next-line:triple-equals
+      if (this.isSucessfullyLoggedIn == true) {
+        this.commonService.UserLoggedInEvent(true);
+        this.router.navigate(['Home']);
+       }else {
+        this.error = 'Username or password is incorrect';
+        this.loading = false;
+       }
+    });
     } else {
       Object.keys(this.loginForm.controls).forEach(field => {
         const control = this.loginForm.get(field);
@@ -84,6 +107,20 @@ export class LogincomponentComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+
+
+   isUserSuccessfullyLoggedIn(): Observable<void> {
+   return   this.authenticationService.login(this.UserName.value, this.Password.value)
+    .map(result => {
+        this.isSucessfullyLoggedIn = result;
+      });
+  }
 }
+
+
+
+
+
 
 
